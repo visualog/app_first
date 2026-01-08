@@ -1,14 +1,9 @@
-
-
-
 @custom-variant dark (&:is(.dark *));
 
 
 
 @tailwind base;
-
 @tailwind components;
-
 @tailwind utilities;
 
 
@@ -243,7 +238,7 @@
 
   body {
 
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground min-w-[320px];
 
   }
 
@@ -251,10 +246,20 @@
 
 .hide-scrollbar {
 
-  -ms-overflow-style: none;  /* IE and Edge */
+  -ms-overflow-style: none;
+  /* IE and Edge */
 
-  scrollbar-width: none;  /* Firefox */
+  scrollbar-width: none;
+  /* Firefox */
 
 }
 
+@media (min-width: 768px) {
+  #prize-card-slider-mobile {
+    display: none !important;
+  }
 
+  #prize-card-slider-desktop {
+    display: grid !important;
+  }
+}

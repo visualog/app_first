@@ -1,79 +1,115 @@
-
 <!DOCTYPE html>
 <html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Lotto Master Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-      
-      :root {
-        font-size: 16px;
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Lotto Master Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+    :root {
+      font-size: 16px;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #cbd5e1;
+      /* slate-300 simulation for frame */
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 0px;
+    }
+
+    .animate-fadeIn {
+      animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
       }
 
-      body {
-        font-family: 'Plus Jakarta Sans', sans-serif;
-        background-color: #cbd5e1; /* slate-300 simulation for frame */
-        margin: 0;
-        padding: 0;
-        overflow-x: hidden;
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
+    }
 
-      /* Custom scrollbar */
-      ::-webkit-scrollbar {
-        width: 0px;
-      }
-
-      .animate-fadeIn {
-        animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-      }
-
-      @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(16px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
-
-      /* New Highlight Animations */
-      @keyframes card-pop-ring {
-        0% { transform: scale(0.95); opacity: 0; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
-        50% { transform: scale(1.02); opacity: 1; box-shadow: 0 0 0 8px rgba(16, 185, 129, 0.2); }
-        100% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
-      }
-
-      @keyframes bg-flash-white {
-        0% { background-color: #dcfce7; transform: scale(0.98); }
-        100% { background-color: #ffffff; transform: scale(1); }
-      }
-      
-      @keyframes shine-slow {
-        0% { transform: translateX(-150%) skewX(-12deg); }
-        40%, 100% { transform: translateX(150%) skewX(-12deg); }
-      }
-
-      .animate-card-pop {
-        animation: card-pop-ring 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-        opacity: 0; /* Starts invisible for animation */
-      }
-
-      .animate-bg-flash {
-        animation: bg-flash-white 1s ease-out forwards;
-      }
-
-      .animate-shine-slow {
-        animation: shine-slow 3s infinite ease-in-out;
-      }
-
-      button:active {
+    /* New Highlight Animations */
+    @keyframes card-pop-ring {
+      0% {
         transform: scale(0.95);
+        opacity: 0;
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
       }
 
-      .lotto-ball {
-        transition: all 0.2s ease;
+      50% {
+        transform: scale(1.02);
+        opacity: 1;
+        box-shadow: 0 0 0 8px rgba(16, 185, 129, 0.2);
       }
-    </style>
+
+      100% {
+        transform: scale(1);
+        opacity: 1;
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+      }
+    }
+
+    @keyframes bg-flash-white {
+      0% {
+        background-color: #dcfce7;
+        transform: scale(0.98);
+      }
+
+      100% {
+        background-color: #ffffff;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes shine-slow {
+      0% {
+        transform: translateX(-150%) skewX(-12deg);
+      }
+
+      40%,
+      100% {
+        transform: translateX(150%) skewX(-12deg);
+      }
+    }
+
+    .animate-card-pop {
+      animation: card-pop-ring 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      opacity: 0;
+      /* Starts invisible for animation */
+    }
+
+    .animate-bg-flash {
+      animation: bg-flash-white 1s ease-out forwards;
+    }
+
+    .animate-shine-slow {
+      animation: shine-slow 3s infinite ease-in-out;
+    }
+
+    button:active {
+      transform: scale(0.95);
+    }
+
+    .lotto-ball {
+      transition: all 0.2s ease;
+    }
+  </style>
   <script type="importmap">
 {
   "imports": {
@@ -85,10 +121,12 @@
   }
 }
 </script>
-    <script type="module" src="/src/main.tsx"></script>
-<link rel="stylesheet" href="/src/index.css">
+  <script type="module" src="/src/main.tsx"></script>
+  <link rel="stylesheet" href="/src/index.css">
 </head>
-  <body class="bg-slate-300">
-    <div id="root"></div>
-  </body>
+
+<body class="bg-slate-300">
+  <div id="root"></div>
+</body>
+
 </html>
