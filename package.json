@@ -12,6 +12,7 @@
   "dependencies": {
     "@google/genai": "^1.30.0",
     "@radix-ui/react-avatar": "^1.1.11",
+    "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-slot": "^1.2.4",
     "@radix-ui/react-tabs": "^1.1.13",
     "@tailwindcss/postcss": "^4.1.18",
@@ -20,6 +21,7 @@
     "clsx": "^2.1.1",
     "cors": "^2.8.5",
     "express": "^5.2.1",
+    "framer-motion": "^12.25.0",
     "lucide-react": "^0.562.0",
     "node-schedule": "^2.1.1",
     "papaparse": "^5.5.3",

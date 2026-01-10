@@ -236,10 +236,30 @@
 
   }
 
+  html {
+    height: 100%;
+    background-color: #f8fafc;
+    /* slate-50 */
+  }
+
+  html.dark {
+    background-color: #020617;
+    /* slate-950 */
+  }
+
   body {
+    height: 100%;
+    background-color: #f8fafc;
+    /* slate-50 */
+    color: var(--foreground);
+    min-width: 320px;
+    overscroll-behavior: none;
+    @apply text-foreground;
+  }
 
-    @apply bg-background text-foreground min-w-[320px];
-
+  .dark body {
+    background-color: #020617;
+    /* slate-950 */
   }
 
 }
