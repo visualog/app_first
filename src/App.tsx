@@ -37,7 +37,7 @@ export function App() {
       const parsed = JSON.parse(savedBookmarks);
       if (Array.isArray(parsed)) setBookmarks(parsed);
     }
-    Papa.parse('/lotto_full_history.csv', {
+    Papa.parse(`${import.meta.env.BASE_URL}lotto_full_history.csv`, {
       download: true, header: true, dynamicTyping: true,
       complete: (results) => {
         const transformedData = (results.data as any[]).map(row => {

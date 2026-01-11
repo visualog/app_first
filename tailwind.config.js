@@ -17,6 +17,10 @@ const config = {
       },
     },
     extend: {
+      screens: {
+        'mobile-md': '375px', // Tier 2: Standard (iPhone X/11/12/13/14/15, Galaxy S21+)
+        'mobile-lg': '394px', // Tier 3: Large (iPhone Pro Max, Galaxy Ultra)
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

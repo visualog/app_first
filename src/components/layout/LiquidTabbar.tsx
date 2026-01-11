@@ -12,8 +12,8 @@ export const LiquidTabbar = ({ activeTab, onTabChange }: LiquidTabbarProps) => {
     return (
         <div className="fixed bottom-6 left-0 right-0 z-50 pointer-events-none lg:hidden flex justify-center items-end px-5 gap-3">
             {/* Main Menu Group - Pill Shape */}
-            <div className="pointer-events-auto bg-black/60 backdrop-blur-xl rounded-full px-3 py-2 shadow-2xl border border-white/10 ring-1 ring-black/5 flex-1 max-w-sm h-20 flex items-center">
-                <TabsList className="flex items-center justify-between bg-transparent p-0 text-white/50 w-full h-full gap-2 relative">
+            <div className="pointer-events-auto bg-black/60 backdrop-blur-xl rounded-full p-1 shadow-2xl border border-white/10 ring-1 ring-black/5 flex-1 max-w-sm h-16 flex items-center">
+                <TabsList className="flex items-center justify-between bg-transparent p-0 text-white/50 w-full h-full gap-0 relative">
                     <LayoutGroup>
                         {[
                             { id: "home", label: "당첨정보", icon: "fa-trophy" },
@@ -24,7 +24,7 @@ export const LiquidTabbar = ({ activeTab, onTabChange }: LiquidTabbarProps) => {
                                 key={tab.id}
                                 value={tab.id}
                                 onClick={() => onTabChange(tab.id)}
-                                className="group flex-col gap-1 bg-transparent data-[state=active]:text-black data-[state=active]:shadow-sm p-1 rounded-full h-16 flex-1 flex items-center justify-center relative z-10 transition-colors duration-300"
+                                className="group flex-col gap-0 bg-transparent data-[state=active]:text-black data-[state=active]:shadow-sm p-1 rounded-full h-full flex-1 flex items-center justify-center relative z-10 transition-colors duration-300"
                             >
                                 {activeTab === tab.id && (
                                     <motion.div
