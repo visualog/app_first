@@ -37,8 +37,8 @@ export function App() {
       const parsed = JSON.parse(savedBookmarks);
       if (Array.isArray(parsed)) setBookmarks(parsed);
     }
-    Papa.parse(`${import.meta.env.BASE_URL}lotto_full_history.csv`, {
-      download: true, header: true, dynamicTyping: true,
+    Papa.parse(`${import.meta.env.BASE_URL}lotto_full_history.csv?t=${new Date().getTime()}`, {
+      download: true, header: true, dynamicTyping: true, skipEmptyLines: true,
       complete: (results) => {
         const transformedData = (results.data as any[]).map(row => {
           if (!row['회차']) return null;
@@ -95,7 +95,7 @@ export function App() {
 
   return (
     <LottoContext.Provider value={{ history: lottoHistory, lottoData: lottoHistory[0] || null, loading }}>
-      <div className="min-h-screen bg-background text-foreground">
+      <div className="min-h-screen text-foreground">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="lg:flex">
           {/* --- Sidebar Navigation (Desktop) --- */}
           <TabsList className="hidden lg:flex lg:flex-col lg:w-60 lg:p-4 lg:border-r lg:items-start lg:gap-2">

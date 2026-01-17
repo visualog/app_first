@@ -242,26 +242,24 @@
     /* slate-50 */
   }
 
-  html.dark {
-    background-color: #020617;
-    /* slate-950 */
-  }
-
   body {
     height: 100%;
     background-color: #f8fafc;
     /* slate-50 */
     color: var(--foreground);
     min-width: 320px;
-    overscroll-behavior: none;
+    overscroll-behavior-y: none;
     @apply text-foreground;
   }
+}
 
-  .dark body {
+@media (prefers-color-scheme: dark) {
+
+  html,
+  body {
     background-color: #020617;
     /* slate-950 */
   }
-
 }
 
 .hide-scrollbar {

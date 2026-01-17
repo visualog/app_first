@@ -15,8 +15,6 @@ export function HomeTab() {
   const sortedHistory = [...history].sort((a, b) => b.회차 - a.회차);
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
-      <FeedContainer history={sortedHistory} onCardClick={handleCardClick} />
-    </div>
+    <FeedContainer history={sortedHistory} onCardClick={handleCardClick} />
   );
 }

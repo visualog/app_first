@@ -36,13 +36,13 @@ export const HeroCard: React.FC<HeroCardProps> = ({ data, onClick }) => {
             <CardContent className="relative z-10 flex flex-col justify-end flex-1 p-6 gap-6">
                 <div className="space-y-3">
                     <p className="text-sm font-semibold text-purple-300 uppercase tracking-widest">당첨 번호</p>
-                    <div className="grid grid-cols-6 gap-2 md:gap-4 w-full">
+                    <div className="grid grid-cols-6 gap-1 md:gap-3 w-full">
                         {[...Array(6)].map((_, i) => (
                             <LottoBall
                                 key={i}
                                 number={data[`번호${i + 1}` as keyof LottoHistory] as number}
                                 size="lg"
-                                className="w-full h-auto aspect-square text-2xl md:text-4xl font-black"
+                                className="w-full h-auto aspect-square text-xl md:text-3xl font-black"
                             />
                         ))}
                     </div>
@@ -55,7 +55,7 @@ export const HeroCard: React.FC<HeroCardProps> = ({ data, onClick }) => {
                             number={data['보너스']}
                             size="lg"
                             isBonus={true}
-                            className="w-14 h-14 text-2xl md:w-20 md:h-20 md:text-3xl font-black"
+                            className="w-14 h-14 text-xl md:w-20 md:h-20 md:text-3xl font-black"
                         />
                     </div>
                 </div>
