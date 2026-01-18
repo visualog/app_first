@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from "react";
 import { View, Text, StyleSheet, Platform, Animated, Dimensions, PanResponder, Pressable } from "react-native";
 import { BlurView } from "expo-blur";
 import { Ionicons } from "@expo/vector-icons";
+import { SymbolView, SFSymbol } from "expo-symbols";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 
@@ -11,8 +12,8 @@ const { width: SCREEN_WIDTH } = Dimensions.get('window');
 // 🔧 설정 및 디자인
 // ----------------------------------------------------------------------
 
-const TAB_BAR_HEIGHT = 68;
-const MARGIN_H = 16;
+const TAB_BAR_HEIGHT = 64;
+const MARGIN_H = 20;
 const GAP = 12;
 
 const SEARCH_BTN_SIZE = TAB_BAR_HEIGHT;
@@ -22,12 +23,12 @@ const MAIN_PILL_WIDTH = SCREEN_WIDTH - (MARGIN_H * 2) - SEARCH_BTN_SIZE - GAP;
 const MAIN_TAB_COUNT = 4;
 const TAB_ITEM_WIDTH = MAIN_PILL_WIDTH / MAIN_TAB_COUNT;
 
-const ICON_MAP: Record<string, { active: keyof typeof Ionicons.glyphMap, inactive: keyof typeof Ionicons.glyphMap }> = {
-    index: { active: "home", inactive: "home-outline" },
-    generator: { active: "flash", inactive: "flash-outline" },
-    mynumbers: { active: "layers", inactive: "layers-outline" },
-    bookmarks: { active: "bookmark", inactive: "bookmark-outline" },
-    search: { active: "search", inactive: "search-outline" },
+const ICON_MAP: Record<string, { active: keyof typeof Ionicons.glyphMap, inactive: keyof typeof Ionicons.glyphMap, sfSymbol?: SFSymbol }> = {
+    index: { active: "home", inactive: "home-outline", sfSymbol: "rectangle.stack.fill" },
+    generator: { active: "flash", inactive: "flash-outline", sfSymbol: "sparkles.2" },
+    mynumbers: { active: "layers", inactive: "layers-outline", sfSymbol: "tray.fill" },
+    bookmarks: { active: "bookmark", inactive: "bookmark-outline", sfSymbol: "heart.circle.fill" },
+    search: { active: "search", inactive: "search-outline", sfSymbol: "magnifyingglass" },
 };
 
 export function GlassTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
@@ -116,7 +117,7 @@ export function GlassTabBar({ state, descriptors, navigation }: BottomTabBarProp
     };
 
     return (
-        <View style={[styles.containerWrapper, { paddingBottom: insets.bottom > 0 ? insets.bottom + 10 : 20 }]}>
+        <View style={[styles.containerWrapper, { paddingBottom: 20 }]}>
 
             {/* 1. 메인 알약 (Main Pill) */}
             <View style={[styles.glassContainer, { width: MAIN_PILL_WIDTH, height: TAB_BAR_HEIGHT, borderRadius: 36 }]}>
@@ -130,7 +131,7 @@ export function GlassTabBar({ state, descriptors, navigation }: BottomTabBarProp
                                 { width: TAB_ITEM_WIDTH, transform: [{ translateX }, { scale: indicatorScale }] }
                             ]}
                         >
-                            <BlurView intensity={Platform.OS === 'ios' ? 20 : 40} tint="light" style={StyleSheet.absoluteFill} />
+                            <BlurView intensity={Platform.OS === 'ios' ? 20 : 40} tint="default" style={StyleSheet.absoluteFill} />
                             <View style={styles.indicatorBorder} />
                         </Animated.View>
                     )}
@@ -145,8 +146,17 @@ export function GlassTabBar({ state, descriptors, navigation }: BottomTabBarProp
                             return (
                                 <View key={route.key} style={[styles.tabItem, { width: TAB_ITEM_WIDTH }]}>
                                     <View style={[styles.iconContainer, isFocused && styles.activeIconContainer]}>
-                                        <Ionicons name={isFocused ? icons.active : icons.inactive} size={24} color={isFocused ? "#1C1C1E" : "#999999"} />
-                                        <Text style={[styles.tabLabel, { color: isFocused ? "#1C1C1E" : "#999999" }]}>{label}</Text>
+                                        {Platform.OS === 'ios' && icons.sfSymbol ? (
+                                            <SymbolView
+                                                name={icons.sfSymbol}
+                                                size={24}
+                                                tintColor={isFocused ? "#007AFF" : "#333333"}
+                                                style={{ width: 24, height: 24 }}
+                                            />
+                                        ) : (
+                                            <Ionicons name={isFocused ? icons.active : icons.inactive} size={24} color={isFocused ? "#007AFF" : "#333333"} />
+                                        )}
+                                        <Text style={[styles.tabLabel, { color: isFocused ? "#007AFF" : "#333333" }]}>{label}</Text>
                                     </View>
                                 </View>
                             );
@@ -169,11 +179,22 @@ export function GlassTabBar({ state, descriptors, navigation }: BottomTabBarProp
                             { opacity: pressed ? 0.7 : 1 }
                         ]}
                     >
-                        <Ionicons
-                            name={state.index === 4 ? "search" : "search-outline"}
-                            size={28}
-                            color="#1C1C1E"
-                        />
+                        {Platform.OS === 'ios' ? (
+                            <View style={{ position: 'absolute', top: 18, left: 18, width: 28, height: 28 }}>
+                                <SymbolView
+                                    name="magnifyingglass"
+                                    size={28}
+                                    tintColor={state.index === 4 ? "#007AFF" : "#333333"}
+                                    style={{ width: 28, height: 28 }}
+                                />
+                            </View>
+                        ) : (
+                            <Ionicons
+                                name={state.index === 4 ? "search" : "search-outline"}
+                                size={28}
+                                color={state.index === 4 ? "#007AFF" : "#333333"}
+                            />
+                        )}
                     </Pressable>
                 </View>
             </View>
@@ -214,10 +235,10 @@ const styles = StyleSheet.create({
 
     activeIndicator: {
         position: 'absolute', top: 4, bottom: 4, left: 0, borderRadius: 32,
-        backgroundColor: 'rgba(255,255,255,0.3)', overflow: 'hidden', zIndex: 0,
+        backgroundColor: 'rgba(0,0,0,0.08)', overflow: 'hidden', zIndex: 0,
     },
     indicatorBorder: {
-        flex: 1, borderRadius: 32, borderWidth: 1, borderColor: 'rgba(255,255,255,0.5)',
+        flex: 1, borderRadius: 32,
     },
 
     iconContainer: { alignItems: 'center', justifyContent: 'center', gap: 3 },

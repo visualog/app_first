@@ -152,6 +152,24 @@ export default function Index() {
                 style={[styles.gradient, { top: 0, height: 100 }]}
                 pointerEvents="none"
             />
+
+            {/* Bottom Fade Gradient Overlay */}
+            <LinearGradient
+                colors={[
+                    'rgba(248, 250, 252, 0)',
+                    'rgba(248, 250, 252, 0.05)',
+                    'rgba(248, 250, 252, 0.15)',
+                    'rgba(248, 250, 252, 0.30)',
+                    'rgba(248, 250, 252, 0.50)',
+                    'rgba(248, 250, 252, 0.70)',
+                    'rgba(248, 250, 252, 0.85)',
+                    'rgba(248, 250, 252, 0.95)',
+                    'rgba(248, 250, 252, 1)',
+                ]}
+                locations={[0, 0.25, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]}
+                style={[styles.gradient, { bottom: 0, height: 120 }]}
+                pointerEvents="none"
+            />
         </View>
     );
 }
