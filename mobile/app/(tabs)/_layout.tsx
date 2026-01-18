@@ -1,27 +1,32 @@
-import { Tabs } from "expo-router";
-import { GlassTabBar } from "../../components/navigation/GlassTabBar";
+import { NativeTabs, Icon, Label } from 'expo-router/unstable-native-tabs';
 
 export default function TabLayout() {
     return (
-        <Tabs
-            tabBar={(props) => <GlassTabBar {...props} />}
-            screenOptions={{
-                headerShown: false,
-                tabBarStyle: {
-                    position: 'absolute',
-                    backgroundColor: 'transparent',
-                    borderTopWidth: 0,
-                    elevation: 0,
-                    height: 0,
-                },
-                tabBarBackground: () => null,
-            }}
-        >
-            <Tabs.Screen name="index" options={{ title: "홈" }} />
-            <Tabs.Screen name="generator" options={{ title: "생성" }} />
-            <Tabs.Screen name="mynumbers" options={{ title: "내 번호" }} />
-            <Tabs.Screen name="bookmarks" options={{ title: "북마크" }} />
-            <Tabs.Screen name="search" options={{ title: "검색" }} />
-        </Tabs>
+        <NativeTabs>
+            <NativeTabs.Trigger name="index">
+                <Label>홈</Label>
+                <Icon sf="rectangle.stack.fill" fallback="home" />
+            </NativeTabs.Trigger>
+
+            <NativeTabs.Trigger name="generator">
+                <Label>생성</Label>
+                <Icon sf="sparkles.2" fallback="flash" />
+            </NativeTabs.Trigger>
+
+            <NativeTabs.Trigger name="mynumbers">
+                <Label>내 번호</Label>
+                <Icon sf="tray.fill" fallback="layers" />
+            </NativeTabs.Trigger>
+
+            <NativeTabs.Trigger name="bookmarks">
+                <Label>북마크</Label>
+                <Icon sf="heart.circle.fill" fallback="bookmark" />
+            </NativeTabs.Trigger>
+
+            <NativeTabs.Trigger name="search">
+                <Label>검색</Label>
+                <Icon sf="magnifyingglass" fallback="search" />
+            </NativeTabs.Trigger>
+        </NativeTabs>
     );
 }
