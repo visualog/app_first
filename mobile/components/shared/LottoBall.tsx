@@ -23,13 +23,14 @@ export const LottoBall: React.FC<{
         }
     };
 
-    // Bonus Ball (Peanut Shape)
+    // Bonus Ball (New Shape)
     if (isBonus) {
+        // New SVG is 48x48 (Square), so we use square dimensions
         const bonusSize = () => {
             switch (size) {
-                case 'sm': return { width: 32, height: 44, fontSize: 12 };
-                case 'lg': return { width: 48, height: 64, fontSize: 18 };
-                default: return { width: 40, height: 56, fontSize: 16 };
+                case 'sm': return { width: 32, height: 32, fontSize: 12 };
+                case 'lg': return { width: 48, height: 48, fontSize: 18 };
+                default: return { width: 40, height: 40, fontSize: 16 };
             }
         };
         const dim = bonusSize();
@@ -37,10 +38,10 @@ export const LottoBall: React.FC<{
         return (
             <View style={[{ width: dim.width, height: dim.height, alignItems: 'center', justifyContent: 'center' }, style]}>
                 <View style={StyleSheet.absoluteFill}>
-                    <Svg viewBox="0 0 100 130" style={{ width: '100%', height: '100%' }} preserveAspectRatio="none">
+                    <Svg viewBox="0 0 48 48" style={{ width: '100%', height: '100%' }}>
                         <Path
                             fill="rgb(233, 213, 255)"
-                            d="M 25 15 L 75 15 C 95 15, 95 61, 80 65 C 95 69, 95 115, 75 115 L 25 115 C 5 115, 5 69, 20 65 C 5 61, 5 15, 25 15 Z"
+                            d="M33 4C39.0751 4 44 8.92487 44 15C44 18.722 42.1495 22.0095 39.3203 24C42.1495 25.9905 44 29.278 44 33C44 39.0751 39.0751 44 33 44H15C8.92487 44 4 39.0751 4 33C4 32.8387 4.00484 32.6782 4.01172 32.5186C4.00441 32.3466 4 32.1737 4 32V16C4 15.8259 4.00438 15.6527 4.01172 15.4805C4.00486 15.3212 4 15.161 4 15C4 8.92487 8.92487 4 15 4H33Z"
                         />
                     </Svg>
                 </View>

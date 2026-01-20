@@ -19,8 +19,8 @@ const HeroCard = ({ data, onPress }: { data: LottoDrawData; onPress?: () => void
             <View className="w-full min-h-[400px] rounded-3xl overflow-hidden relative bg-indigo-900 mb-6">
                 <View className="p-6 flex-1 justify-between relative z-10">
                     <View>
-                        <View className="bg-yellow-400 self-start px-3 py-1 rounded-full mb-3">
-                            <Text className="text-yellow-900 font-bold text-sm">최신 회차</Text>
+                        <View className="bg-lime-300 self-start px-3 py-1 rounded-full mb-3">
+                            <Text className="text-lime-900 font-bold text-sm">최신 회차</Text>
                         </View>
                         <Text className="text-4xl font-black text-white tracking-tight">
                             {data.회차}회
@@ -34,7 +34,7 @@ const HeroCard = ({ data, onPress }: { data: LottoDrawData; onPress?: () => void
                         <Text className="text-purple-300 text-sm font-semibold uppercase tracking-widest mb-3">
                             당첨 번호
                         </Text>
-                        <View className="flex-row flex-wrap gap-2">
+                        <View className="flex-row justify-between">
                             {numbers.map((n, i) => (
                                 <LottoBall key={i} number={n} size="lg" />
                             ))}
@@ -66,15 +66,11 @@ const StandardCard = ({ data, onPress }: { data: LottoDrawData; onPress?: () => 
                 </View>
 
                 <View className="flex-row items-center justify-between">
-                    <View className="flex-row gap-1.5">
-                        {numbers.map((n, i) => (
-                            <LottoBall key={i} number={n} size="md" />
-                        ))}
-                    </View>
-                    <View className="flex-row items-center gap-2 pl-2 border-l border-slate-100">
-                        <Text className="text-xs text-slate-400 font-medium">보너스</Text>
-                        <LottoBall number={data.보너스} size="md" isBonus />
-                    </View>
+                    {numbers.map((n, i) => (
+                        <LottoBall key={i} number={n} size="md" />
+                    ))}
+                    <Text className="text-slate-400 text-xl font-medium mb-1">+</Text>
+                    <LottoBall number={data.보너스} size="md" isBonus />
                 </View>
             </View>
         </Pressable>

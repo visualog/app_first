@@ -4,6 +4,7 @@ import { useLocalSearchParams, useRouter, Stack } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { getDrawByRound, getDrawByRound as getDraw } from "../../lib/lottoData";
+import { BlurView } from "expo-blur";
 import { LottoBall } from "../../components/shared/LottoBall";
 import { SumComparison } from "../../components/lotto/SumComparison";
 import { GeneratorSection } from "../../components/lotto/GeneratorSection";
@@ -32,7 +33,30 @@ export default function LottoDetailScreen() {
     return (
         <View style={styles.container}>
             <StatusBar barStyle="dark-content" />
-            <Stack.Screen options={{ headerShown: false }} />
+            <Stack.Screen
+                options={{
+                    headerShown: true,
+                    headerTransparent: true,
+                    headerTitle: "",
+                    headerBackVisible: false, // Hide default native back button
+                    headerLeft: () => (
+                        <View style={styles.glassButtonWrapper}>
+                            <View style={styles.glassButtonContainer}>
+                                <BlurView intensity={20} tint="light" style={StyleSheet.absoluteFill} />
+                                <Pressable
+                                    onPress={() => router.back()}
+                                    style={({ pressed }) => [
+                                        styles.glassButtonInner,
+                                        { opacity: pressed ? 0.7 : 1 }
+                                    ]}
+                                >
+                                    <Ionicons name="arrow-back" size={24} color="#1e293b" />
+                                </Pressable>
+                            </View>
+                        </View>
+                    ),
+                }}
+            />
 
             <ScrollView
                 style={styles.scrollView}
@@ -41,15 +65,7 @@ export default function LottoDetailScreen() {
                     paddingBottom: insets.bottom + 40,
                 }}
             >
-                {/* 1. Header (Floating Back Button) */}
-                <View className="px-6 py-4 flex-row items-center justify-between">
-                    <Pressable
-                        onPress={() => router.back()}
-                        className="w-10 h-10 bg-white rounded-full items-center justify-center shadow-sm border border-slate-100"
-                    >
-                        <Ionicons name="arrow-back" size={24} color="#1e293b" />
-                    </Pressable>
-                </View>
+                {/* 1. Header Removed (Using Native Navigation Bar) */}
 
                 {/* 2. Title Section */}
                 <View className="items-center mt-2 mb-10 px-6">
@@ -112,5 +128,28 @@ const styles = StyleSheet.create({
     },
     scrollView: {
         flex: 1,
+    },
+    // Liquid Glass Button Styles
+    glassButtonWrapper: {
+        shadowColor: "#00e5ff",
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
+        elevation: 5,
+        // Ensure no squeezing
+        width: 40, height: 40,
+        marginLeft: 10, // Give some breathing room from screen edge
+    },
+    glassButtonContainer: {
+        width: 40, height: 40, borderRadius: 20,
+        overflow: 'hidden',
+        backgroundColor: 'rgba(255,255,255,0.2)',
+        borderWidth: 1.5,
+        borderColor: 'rgba(255,255,255,0.5)',
+        justifyContent: 'center', alignItems: 'center',
+    },
+    glassButtonInner: {
+        width: 40, height: 40,
+        alignItems: 'center', justifyContent: 'center',
     },
 });
