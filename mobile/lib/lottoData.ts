@@ -11,6 +11,7 @@ export interface LottoDrawData {
     번호5: number;
     번호6: number;
     보너스: number;
+    "1등_1게임당당첨금액"?: number;
 }
 
 // Type assertion for imported JSON data

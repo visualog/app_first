@@ -5,6 +5,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { useBookmarkStore, BookmarkItem } from "../../lib/bookmarkStore";
 import { LottoBall } from "../../components/shared/LottoBall";
 
+import { Card } from "../../components/ui/card";
+
 // Card component for each bookmark
 const BookmarkCard = ({ item, onDelete }: { item: BookmarkItem; onDelete: (id: string) => void }) => {
     const date = new Date(item.createdAt).toLocaleDateString('ko-KR', {
@@ -12,7 +14,7 @@ const BookmarkCard = ({ item, onDelete }: { item: BookmarkItem; onDelete: (id: s
     });
 
     return (
-        <View className="bg-white p-5 rounded-2xl border border-slate-100 mb-3 shadow-sm">
+        <Card borderRadius={16} className="bg-white p-5 border border-slate-100 mb-3 shadow-sm">
             <View className="flex-row justify-between items-start mb-4">
                 <View>
                     <View className="flex-row items-center gap-2 mb-1">
@@ -44,7 +46,7 @@ const BookmarkCard = ({ item, onDelete }: { item: BookmarkItem; onDelete: (id: s
                     <Text className="text-slate-700 font-bold text-lg">{item.sum}</Text>
                 </View>
             </View>
-        </View>
+        </Card>
     );
 };
 

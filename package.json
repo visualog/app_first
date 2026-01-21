@@ -8,6 +8,9 @@
     "build": "vite build",
     "preview": "vite preview",
     "server": "node server/index.js",
+    "ios": "npm run ios --prefix mobile",
+    "android": "npm run android --prefix mobile",
+    "mobile": "npm run start --prefix mobile",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },

@@ -1,17 +1,48 @@
 import * as React from "react"
-import { Text, View, ViewProps } from "react-native"
+import { Platform, StyleSheet, Text, View, ViewProps } from "react-native"
+import Constants, { ExecutionEnvironment } from 'expo-constants';
 import { cn } from "../../lib/utils"
+import ContinuousCardView from "../../modules/continuous-card"
 
-const Card = React.forwardRef<React.ElementRef<typeof View>, ViewProps>(({ className, ...props }, ref) => (
-    <View
-        ref={ref}
-        className={cn(
-            "rounded-3xl border border-border bg-card shadow-sm", // added shadow-sm fallback
-            className
-        )}
-        {...props}
-    />
-))
+const isExpoGo = Constants.executionEnvironment === ExecutionEnvironment.StoreClient;
+
+interface CardProps extends ViewProps {
+    borderRadius?: number;
+}
+
+const Card = React.forwardRef<React.ElementRef<typeof View>, CardProps>(({ className, style, borderRadius = 24, ...props }, ref) => {
+    // Expo Go에서는 네이티브 모듈을 사용할 수 없으므로 일반 View로 폴백
+    if (Platform.OS === 'ios' && !isExpoGo) {
+        const flattenedStyle: any = StyleSheet.flatten(style);
+        const borderWidth = flattenedStyle?.borderWidth;
+        const borderColor = flattenedStyle?.borderColor;
+
+        return (
+            <ContinuousCardView
+                borderRadius={borderRadius}
+                borderWidth={borderWidth}
+                borderColor={borderColor}
+                style={[{ overflow: 'hidden' }, style]}
+                className={cn(
+                    "border border-border bg-card shadow-sm",
+                    className
+                )}
+                {...props}
+            />
+        )
+    }
+
+    return (
+        <View
+            ref={ref}
+            className={cn(
+                className
+            )}
+            style={[{ borderRadius, borderStyle: 'solid', overflow: 'hidden' }, style]}
+            {...props}
+        />
+    )
+})
 Card.displayName = "Card"
 
 const CardHeader = React.forwardRef<React.ElementRef<typeof View>, ViewProps>(({ className, ...props }, ref) => (

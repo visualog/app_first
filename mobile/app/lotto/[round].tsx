@@ -3,11 +3,12 @@ import { View, Text, StyleSheet, ScrollView, Pressable, StatusBar } from "react-
 import { useLocalSearchParams, useRouter, Stack } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import { getDrawByRound, getDrawByRound as getDraw } from "../../lib/lottoData";
+import { getDrawByRound as getDraw } from "../../lib/lottoData";
 import { BlurView } from "expo-blur";
 import { LottoBall } from "../../components/shared/LottoBall";
 import { SumComparison } from "../../components/lotto/SumComparison";
 import { GeneratorSection } from "../../components/lotto/GeneratorSection";
+import { Card } from "../../components/ui/card";
 
 export default function LottoDetailScreen() {
     const { round } = useLocalSearchParams<{ round: string }>();
@@ -38,7 +39,7 @@ export default function LottoDetailScreen() {
                     headerShown: true,
                     headerTransparent: true,
                     headerTitle: "",
-                    headerBackVisible: false, // Hide default native back button
+                    headerBackVisible: false,
                     headerLeft: () => (
                         <View style={styles.glassButtonWrapper}>
                             <View style={styles.glassButtonContainer}>
@@ -65,8 +66,6 @@ export default function LottoDetailScreen() {
                     paddingBottom: insets.bottom + 40,
                 }}
             >
-                {/* 1. Header Removed (Using Native Navigation Bar) */}
-
                 {/* 2. Title Section */}
                 <View className="items-center mt-2 mb-10 px-6">
                     <View className="bg-indigo-50 px-4 py-1.5 rounded-full mb-4">
@@ -94,9 +93,9 @@ export default function LottoDetailScreen() {
                 </View>
 
                 <View className="px-6">
-                    {/* 4. Bonus Number (Moved Below) */}
+                    {/* 4. Bonus Number Section */}
                     <View className="items-center mb-12 mt-4">
-                        <View className="bg-slate-50 rounded-2xl p-6 w-full items-center">
+                        <Card borderRadius={16} className="bg-slate-50 p-6 w-full items-center">
                             <Text className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-4">
                                 BONUS NUMBER
                             </Text>
@@ -104,7 +103,7 @@ export default function LottoDetailScreen() {
                                 <LottoBall number={data.보너스} size="lg" isBonus />
                             </View>
                             <Text className="text-purple-300 font-bold text-xl mt-3">{data.보너스}</Text>
-                        </View>
+                        </Card>
                     </View>
 
                     {/* 5. Analysis Section */}
@@ -115,7 +114,6 @@ export default function LottoDetailScreen() {
                     {/* 6. Generator Section */}
                     <GeneratorSection targetSum={currentSum} currentRound={data.회차} />
                 </View>
-
             </ScrollView>
         </View>
     );
@@ -124,21 +122,19 @@ export default function LottoDetailScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#ffffff', // Clean white background as requested
+        backgroundColor: '#ffffff',
     },
     scrollView: {
         flex: 1,
     },
-    // Liquid Glass Button Styles
     glassButtonWrapper: {
         shadowColor: "#00e5ff",
         shadowOffset: { width: 0, height: 0 },
         shadowOpacity: 0.3,
         shadowRadius: 8,
         elevation: 5,
-        // Ensure no squeezing
         width: 40, height: 40,
-        marginLeft: 10, // Give some breathing room from screen edge
+        marginLeft: 10,
     },
     glassButtonContainer: {
         width: 40, height: 40, borderRadius: 20,
