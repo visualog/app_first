@@ -6,13 +6,17 @@ import ContinuousCardView from "../../modules/continuous-card"
 
 const isExpoGo = Constants.executionEnvironment === ExecutionEnvironment.StoreClient;
 
+// ContinuousCard 네이티브 모듈 사용 가능 여부 확인
+// 개발 빌드에서만 사용하고, Release 빌드나 Expo Go에서는 일반 View 사용
+const canUseContinuousCard = Platform.OS === 'ios' && !isExpoGo && __DEV__;
+
 interface CardProps extends ViewProps {
     borderRadius?: number;
 }
 
 const Card = React.forwardRef<React.ElementRef<typeof View>, CardProps>(({ className, style, borderRadius = 24, ...props }, ref) => {
-    // Expo Go에서는 네이티브 모듈을 사용할 수 없으므로 일반 View로 폴백
-    if (Platform.OS === 'ios' && !isExpoGo) {
+    // ContinuousCard 네이티브 모듈 사용 가능한 경우에만 사용
+    if (canUseContinuousCard) {
         const flattenedStyle: any = StyleSheet.flatten(style);
         const borderWidth = flattenedStyle?.borderWidth;
         const borderColor = flattenedStyle?.borderColor;
@@ -32,13 +36,14 @@ const Card = React.forwardRef<React.ElementRef<typeof View>, CardProps>(({ class
         )
     }
 
+    // 폴백: 일반 View 사용
     return (
         <View
             ref={ref}
             className={cn(
                 className
             )}
-            style={[{ borderRadius, borderStyle: 'solid', overflow: 'hidden' }, style]}
+            style={[{ borderRadius, borderCurve: 'continuous', borderStyle: 'solid', overflow: 'hidden' }, style]}
             {...props}
         />
     )

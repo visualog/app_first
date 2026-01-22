@@ -1,11 +1,11 @@
-import { View, Text, StyleSheet, Dimensions, FlatList, Pressable } from "react-native";
+import { useRef, useEffect } from "react";
+import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import { LottoBall } from "../../components/shared/LottoBall";
 import { getLottoHistory, LottoDrawData } from "../../lib/lottoData";
 import { useRouter } from "expo-router";
-
-const { height: SCREEN_HEIGHT } = Dimensions.get('window');
+import { useNavigation } from "@react-navigation/native";
 
 // Get real lotto data (Full History)
 const LOTTO_HISTORY = getLottoHistory();
@@ -113,7 +113,9 @@ const StandardCard = ({ data, onPress }: { data: LottoDrawData; onPress?: () => 
 
 export default function Index() {
     const insets = useSafeAreaInsets();
-    const router = useRouter(); // Use router for navigation
+    const router = useRouter();
+    const navigation = useNavigation();
+    const scrollViewRef = useRef<ScrollView>(null);
 
     const latestDraw = LOTTO_HISTORY[0];
     const pastDraws = LOTTO_HISTORY.slice(1);
@@ -128,48 +130,52 @@ export default function Index() {
         router.push(`/lotto/${round}`);
     };
 
-    const renderHeader = () => (
-        <View>
-            {/* Page Title */}
-            <View className="mb-4">
-                <Text className="text-3xl font-black text-slate-900 tracking-tight">오늘의 로또</Text>
-                <Text className="text-slate-500 text-sm font-medium">{today}</Text>
-            </View>
+    // 탭 재클릭 시 상단으로 스크롤
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('tabPress' as any, (e: any) => {
+            // 이미 홈 화면에 있을 때 탭을 누르면 상단으로 스크롤
+            scrollViewRef.current?.scrollTo({ y: 0, animated: true });
+        });
 
-            {/* Hero Card (Latest Draw) */}
-            {latestDraw && (
-                <HeroCard
-                    data={latestDraw}
-                    history={LOTTO_HISTORY}
-                    onPress={() => goToDetail(latestDraw.회차)}
-                />
-            )}
-        </View>
-    );
+        return unsubscribe;
+    }, [navigation]);
 
     return (
         <View style={styles.container}>
-            {/* FlatList for High Performance Rendering */}
-            <FlatList
-                data={pastDraws}
-                keyExtractor={(item) => item.회차.toString()}
-                renderItem={({ item }) => (
-                    <StandardCard
-                        data={item}
-                        onPress={() => goToDetail(item.회차)}
-                    />
-                )}
-                ListHeaderComponent={renderHeader}
+            {/* ScrollView with ref for manual scroll-to-top */}
+            <ScrollView
+                ref={scrollViewRef}
                 contentContainerStyle={{
                     paddingTop: insets.top + 20,
                     paddingHorizontal: 20,
                     paddingBottom: insets.bottom + 100,
                 }}
                 showsVerticalScrollIndicator={false}
-                initialNumToRender={10}
-                windowSize={5}
-                removeClippedSubviews={true}
-            />
+            >
+                {/* Page Title */}
+                <View className="mb-4">
+                    <Text className="text-3xl font-black text-slate-900 tracking-tight">오늘의 로또</Text>
+                    <Text className="text-slate-500 text-sm font-medium">{today}</Text>
+                </View>
+
+                {/* Hero Card (Latest Draw) */}
+                {latestDraw && (
+                    <HeroCard
+                        data={latestDraw}
+                        history={LOTTO_HISTORY}
+                        onPress={() => goToDetail(latestDraw.회차)}
+                    />
+                )}
+
+                {/* Past Draws */}
+                {pastDraws.map((item) => (
+                    <StandardCard
+                        key={item.회차}
+                        data={item}
+                        onPress={() => goToDetail(item.회차)}
+                    />
+                ))}
+            </ScrollView>
 
             {/* Top Fade Gradient Overlay */}
             <LinearGradient
