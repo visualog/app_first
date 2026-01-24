@@ -2,9 +2,11 @@ import ExpoModulesCore
 
 public class ContinuousCardModule: Module {
   public func definition() -> ModuleDefinition {
-    Name("ContinuousCard")
+    Name("ContinuousCardModule")
 
     View(ContinuousCardView.self) {
+      // 뷰 이름 명시적 설정 - JS에서 requireNativeViewManager('ContinuousCard')와 일치해야 함
+      
       Prop("borderRadius") { (view: ContinuousCardView, prop: CGFloat) in
         view.layer.cornerRadius = prop
       }
@@ -21,6 +23,6 @@ public class ContinuousCardModule: Module {
       Prop("backgroundColor") { (view: ContinuousCardView, prop: UIColor?) in
         view.backgroundColor = prop
       }
-    }
+    }.ViewName("ContinuousCard")
   }
 }

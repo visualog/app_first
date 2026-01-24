@@ -11,6 +11,7 @@ import { useNavigation } from "@react-navigation/native";
 const LOTTO_HISTORY = getLottoHistory();
 
 import { Card } from "../../components/ui/card";
+import { TopPrizeList } from "../../components/lotto/TopPrizeList";
 
 // PrizeBarGraph: Visualize 1st prize winning amount for the last 6 draws
 const PrizeBarGraph = ({ history }: { history: LottoDrawData[] }) => {
@@ -53,7 +54,7 @@ const HeroCard = ({ data, history, onPress }: { data: LottoDrawData; history: Lo
 
     return (
         <Pressable onPress={onPress}>
-            <Card className="w-full min-h-[400px] overflow-hidden relative bg-indigo-900 mb-6 border-0 shadow-2xl shadow-indigo-500/20">
+            <Card borderRadius={40} className="w-full min-h-[400px] overflow-hidden relative bg-indigo-900 mb-6 border-0 shadow-2xl shadow-indigo-500/20">
                 <View className="p-6 flex-1 relative z-10">
                     <View className="flex-row justify-between items-center mb-6">
                         <View className="flex-row items-baseline gap-1">
@@ -166,6 +167,9 @@ export default function Index() {
                         onPress={() => goToDetail(latestDraw.회차)}
                     />
                 )}
+
+                {/* Top Prize List */}
+                <TopPrizeList history={LOTTO_HISTORY} />
 
                 {/* Past Draws */}
                 {pastDraws.map((item) => (

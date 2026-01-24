@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="ko" class="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lotto App Foundation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        slate: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                            950: '#020617',
+                        },
+                        indigo: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            200: '#c7d2fe',
+                            300: '#a5b4fc',
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            800: '#3730a3',
+                            900: '#312e81',
+                            950: '#1e1b4b',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        details>summary {
+            list-style: none;
+        }
+
+        details>summary::-webkit-details-marker {
+            display: none;
+        }
+
+        details[open] summary svg.chevron {
+            transform: rotate(180deg);
+        }
+
+        /* Active link styles */
+        .nav-link.active {
+            color: #4f46e5;
+            /* indigo-600 */
+            background-color: #eef2ff;
+            /* indigo-50 */
+        }
+
+        .dark .nav-link.active {
+            color: #818cf8;
+            /* indigo-400 */
+            background-color: rgba(49, 46, 129, 0.3);
+            /* indigo-900/30 */
+        }
+    </style>
+</head>
+
+<body
+    class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-50 transition-colors duration-300 h-screen overflow-hidden flex">
+
+    <!-- Sidebar -->
+    <aside
+        class="w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col flex-shrink-0 z-20">
+        <div class="h-16 flex items-center px-6 border-b border-slate-100 dark:border-slate-800/50">
+            <h1 class="text-lg font-black tracking-tight text-slate-900 dark:text-white">
+                Lotto <span class="text-indigo-500">Foundation</span>
+            </h1>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto py-4 px-3 space-y-1">
+
+            <details open class="group">
+                <summary
+                    class="flex items-center justify-between px-3 py-2 text-sm font-semibold text-slate-600 dark:text-slate-300 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors select-none">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z">
+                            </path>
+                        </svg>
+                        Foundation
+                    </div>
+                    <svg class="chevron w-4 h-4 text-slate-400 transition-transform duration-200" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </summary>
+                <div class="pl-10 pr-2 pb-1 space-y-0.5 mt-1">
+                    <button data-target="colors"
+                        class="nav-link w-full text-left px-3 py-1.5 text-sm text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-md hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors">Colors</button>
+                    <button data-target="typography"
+                        class="nav-link w-full text-left px-3 py-1.5 text-sm text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-md hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors">Typography</button>
+                    <button data-target="spacing"
+                        class="nav-link w-full text-left px-3 py-1.5 text-sm text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-md hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors">Spacing</button>
+                    <button data-target="radius"
+                        class="nav-link w-full text-left px-3 py-1.5 text-sm text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-md hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors">Border
+                        Radius</button>
+                    <button data-target="shadows"
+                        class="nav-link w-full text-left px-3 py-1.5 text-sm text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-md hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors">Shadows</button>
+                    <button data-target="icons"
+                        class="nav-link w-full text-left px-3 py-1.5 text-sm text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-md hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors">Icons</button>
+                </div>
+            </details>
+
+            <details open class="group">
+                <summary
+                    class="flex items-center justify-between px-3 py-2 text-sm font-semibold text-slate-600 dark:text-slate-300 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors select-none">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
+                            </path>
+                        </svg>
+                        Components
+                    </div>
+                    <svg class="chevron w-4 h-4 text-slate-400 transition-transform duration-200" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </summary>
+                <div class="pl-10 pr-2 pb-1 space-y-0.5 mt-1">
+                    <button data-target="lotto-balls"
+                        class="nav-link w-full text-left px-3 py-1.5 text-sm text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-md hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors">Lotto
+                        Balls</button>
+                    <button data-target="cards"
+                        class="nav-link w-full text-left px-3 py-1.5 text-sm text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-md hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors">Hero
+                        & List Cards</button>
+                </div>
+            </details>
+
+        </nav>
+
+        <div class="p-4 border-t border-slate-200 dark:border-slate-800">
+            <button id="theme-toggle"
+                class="w-full flex items-center justify-center gap-2 px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg transition-colors text-sm font-medium">
+                <svg id="icon-sun" class="w-4 h-4 hidden dark:block text-yellow-400" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
+                    </path>
+                </svg>
+                <svg id="icon-moon" class="w-4 h-4 block dark:hidden text-slate-500" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
+                    </path>
+                </svg>
+                <span>Toggle Theme</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 h-full overflow-y-auto bg-slate-50/50 dark:bg-slate-950 scroll-smooth">
+        <div class="max-w-4xl mx-auto px-10 py-12">
+
+            <!-- 1. Color Palette -->
+            <section id="colors" class="content-section">
+                <header class="mb-8 pb-4 border-b border-slate-200 dark:border-slate-800">
+                    <span class="text-xs font-bold tracking-wider text-indigo-500 uppercase mb-1 block">01.
+                        Foundation</span>
+                    <h2 class="text-3xl font-bold text-slate-900 dark:text-white">Color System</h2>
+                    <p class="mt-2 text-slate-500 dark:text-slate-400">앱 전체에서 사용되는 색상 팔레트입니다.</p>
+                </header>
+
+                <div class="space-y-10">
+                    <!-- Neutral Scale (Slate) -->
+                    <div>
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-full bg-slate-500"></span> Neutral (Slate)
+                            </h3>
+                            <span class="text-xs font-mono text-slate-400">Usage Guide</span>
+                        </div>
+
+                        <div class="border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden text-sm">
+                            <table class="w-full text-left border-collapse">
+                                <thead
+                                    class="bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 text-xs uppercase text-slate-500 font-semibold tracking-wider">
+                                    <tr>
+                                        <th class="p-4 w-24">Step</th>
+                                        <th class="p-4 w-24">Class</th>
+                                        <th class="p-4 w-32">Color</th>
+                                        <th class="p-4">Use Case</th>
+                                    </tr>
+                                </thead>
+                                <tbody
+                                    class="divide-y divide-slate-100 dark:divide-slate-800 bg-white dark:bg-slate-900/50">
+                                    <tr>
+                                        <td class="p-4 font-mono text-slate-400">1</td>
+                                        <td class="p-4 font-mono font-bold text-slate-700 dark:text-slate-300">slate-50
+                                        </td>
+                                        <td class="p-4">
+                                            <div
+                                                class="h-8 w-full rounded border border-slate-200 dark:border-slate-700 bg-slate-50">
+                                            </div>
+                                        </td>
+                                        <td class="p-4 text-slate-600 dark:text-slate-400">App background</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-4 font-mono text-slate-400">2</td>
+                                        <td class="p-4 font-mono font-bold text-slate-700 dark:text-slate-300">slate-100
+                                        </td>
+                                        <td class="p-4">
+                                            <div
+                                                class="h-8 w-full rounded border border-slate-200 dark:border-slate-700 bg-slate-100">
+                                            </div>
+                                        </td>
+                                        <td class="p-4 text-slate-600 dark:text-slate-400">Subtle background</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-4 font-mono text-slate-400">3</td>
+                                        <td class="p-4 font-mono font-bold text-slate-700 dark:text-slate-300">slate-200
+                                        </td>
+                                        <td class="p-4">
+                                            <div class="h-8 w-full rounded bg-slate-200"></div>
+                                        </td>
+                                        <td class="p-4 text-slate-600 dark:text-slate-400">UI element background</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-4 font-mono text-slate-400">4</td>
+                                        <td class="p-4 font-mono font-bold text-slate-700 dark:text-slate-300">slate-300
+                                        </td>
+                                        <td class="p-4">
+                                            <div class="h-8 w-full rounded bg-slate-300"></div>
+                                        </td>
+                                        <td class="p-4 text-slate-600 dark:text-slate-400">Hovered UI element background
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-4 font-mono text-slate-400">5</td>
+                                        <td class="p-4 font-mono font-bold text-slate-700 dark:text-slate-300">slate-400
+                                        </td>
+                                        <td class="p-4">
+                                            <div class="h-8 w-full rounded bg-slate-400"></div>
+                                        </td>
+                                        <td class="p-4 text-slate-600 dark:text-slate-400">Active / Selected UI element
+                                            background</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-4 font-mono text-slate-400">6</td>
+                                        <td class="p-4 font-mono font-bold text-slate-700 dark:text-slate-300">slate-500
+                                        </td>
+                                        <td class="p-4">
+                                            <div class="h-8 w-full rounded bg-slate-500"></div>
+                                        </td>
+                                        <td class="p-4 text-slate-600 dark:text-slate-400">Subtle borders and separators
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-4 font-mono text-slate-400">7</td>
+                                        <td class="p-4 font-mono font-bold text-slate-700 dark:text-slate-300">slate-600
+                                        </td>
+                                        <td class="p-4">
+                                            <div class="h-8 w-full rounded bg-slate-600"></div>
+                                        </td>
+                                        <td class="p-4 text-slate-600 dark:text-slate-400">UI element border and focus
+                                            rings</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-4 font-mono text-slate-400">8</td>
+                                        <td class="p-4 font-mono font-bold text-slate-700 dark:text-slate-300">slate-700
+                                        </td>
+                                        <td class="p-4">
+                                            <div class="h-8 w-full rounded bg-slate-700"></div>
+                                        </td>
+                                        <td class="p-4 text-slate-600 dark:text-slate-400">Hovered UI element border
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-4 font-mono text-slate-400">9</td>
+                                        <td class="p-4 font-mono font-bold text-slate-700 dark:text-slate-300">slate-800
+                                        </td>
+                                        <td class="p-4">
+                                            <div class="h-8 w-full rounded bg-slate-800"></div>
+                                        </td>
+                                        <td class="p-4 text-slate-600 dark:text-slate-400">Solid backgrounds</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-4 font-mono text-slate-400">10</td>
+                                        <td class="p-4 font-mono font-bold text-slate-700 dark:text-slate-300">slate-900
+                                        </td>
+                                        <td class="p-4">
+                                            <div class="h-8 w-full rounded bg-slate-900"></div>
+                                        </td>
+                                        <td class="p-4 text-slate-600 dark:text-slate-400">Hovered solid backgrounds /
+                                            High-contrast text (Light)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-4 font-mono text-slate-400">11</td>
+                                        <td class="p-4 font-mono font-bold text-slate-700 dark:text-slate-300">slate-950
+                                        </td>
+                                        <td class="p-4">
+                                            <div class="h-8 w-full rounded bg-slate-950"></div>
+                                        </td>
+                                        <td class="p-4 text-slate-600 dark:text-slate-400">High-contrast text</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Indigo Scale -->
+                    <div>
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-full bg-indigo-500"></span> Primary (Indigo)
+                            </h3>
+                            <span class="text-xs font-mono text-slate-400">Usage Guide</span>
+                        </div>
+
+                        <div class="border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden text-sm">
+                            <table class="w-full text-left border-collapse">
+                                <thead
+                                    class="bg-indigo-50 dark:bg-slate-900 border-b border-indigo-100 dark:border-slate-800 text-xs uppercase text-indigo-500 font-semibold tracking-wider">
+                                    <tr>
+                                        <th class="p-4 w-24">Step</th>
+                                        <th class="p-4 w-24">Class</th>
+                                        <th class="p-4 w-32">Color</th>
+                                        <th class="p-4">Use Case</th>
+                                    </tr>
+                                </thead>
+                                <tbody
+                                    class="divide-y divide-slate-100 dark:divide-slate-800 bg-white dark:bg-slate-900/50">
+                                    <tr>
+                                        <td class="p-4 font-mono text-slate-400">1</td>
+                                        <td class="p-4 font-mono font-bold text-slate-700 dark:text-slate-300">indigo-50
+                                        </td>
+                                        <td class="p-4">
+                                            <div
+                                                class="h-8 w-full rounded border border-indigo-100 dark:border-slate-700 bg-indigo-50">
+                                            </div>
+                                        </td>
+                                        <td class="p-4 text-slate-600 dark:text-slate-400">App background (Tinted)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-4 font-mono text-slate-400">2</td>
+                                        <td class="p-4 font-mono font-bold text-slate-700 dark:text-slate-300">
+                                            indigo-100</td>
+                                        <td class="p-4">
+                                            <div class="h-8 w-full rounded bg-indigo-100"></div>
+                                        </td>
+                                        <td class="p-4 text-slate-600 dark:text-slate-400">Subtle background (Tinted)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-4 font-mono text-slate-400">3</td>
+                                        <td class="p-4 font-mono font-bold text-slate-700 dark:text-slate-300">
+                                            indigo-200</td>
+                                        <td class="p-4">
+                                            <div class="h-8 w-full rounded bg-indigo-200"></div>
+                                        </td>
+                                        <td class="p-4 text-slate-600 dark:text-slate-400">UI element background</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-4 font-mono text-slate-400">4</td>
+                                        <td class="p-4 font-mono font-bold text-slate-700 dark:text-slate-300">
+                                            indigo-300</td>
+                                        <td class="p-4">
+                                            <div class="h-8 w-full rounded bg-indigo-300"></div>
+                                        </td>
+                                        <td class="p-4 text-slate-600 dark:text-slate-400">Hovered UI element background
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-4 font-mono text-slate-400">5</td>
+                                        <td class="p-4 font-mono font-bold text-slate-700 dark:text-slate-300">
+                                            indigo-400</td>
+                                        <td class="p-4">
+                                            <div class="h-8 w-full rounded bg-indigo-400"></div>
+                                        </td>
+                                        <td class="p-4 text-slate-600 dark:text-slate-400">Active / Selected UI element
+                                            background</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-4 font-mono text-slate-400">6</td>
+                                        <td class="p-4 font-mono font-bold text-slate-700 dark:text-slate-300">
+                                            indigo-500</td>
+                                        <td class="p-4">
+                                            <div class="h-8 w-full rounded bg-indigo-500"></div>
+                                        </td>
+                                        <td class="p-4 text-slate-600 dark:text-slate-400">Subtle borders and separators
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-4 font-mono text-slate-400">9</td>
+                                        <td class="p-4 font-bold text-indigo-600 font-mono">indigo-600</td>
+                                        <td class="p-4">
+                                            <div class="h-8 w-full rounded bg-indigo-600 shadow-sm"></div>
+                                        </td>
+                                        <td class="p-4 font-medium text-indigo-700 dark:text-indigo-400">Primary Solid
+                                            Brand Color (Buttons, Links)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-4 font-mono text-slate-400">10</td>
+                                        <td class="p-4 font-mono font-bold text-slate-700 dark:text-slate-300">
+                                            indigo-700</td>
+                                        <td class="p-4">
+                                            <div class="h-8 w-full rounded bg-indigo-700"></div>
+                                        </td>
+                                        <td class="p-4 text-slate-600 dark:text-slate-400">Hovered solid backgrounds
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. Typography -->
+            <section id="typography" class="content-section hidden">
+                <header class="mb-8 pb-4 border-b border-slate-200 dark:border-slate-800">
+                    <span class="text-xs font-bold tracking-wider text-indigo-500 uppercase mb-1 block">01.
+                        Foundation</span>
+                    <h2 class="text-3xl font-bold text-slate-900 dark:text-white">Typography</h2>
+                    <p class="mt-2 text-slate-500 dark:text-slate-400">Inter 폰트(웹 대체)를 기반으로 한 텍스트 스타일 시스템입니다.</p>
+                </header>
+
+                <!-- Typography Specs -->
+                <div class="space-y-6">
+                    <p class="text-slate-600 dark:text-slate-400">
+                        기본 서체는 <strong>Inter</strong>를 사용하며, 숫자의 가독성을 최우선으로 고려합니다.
+                    </p>
+
+                    <div class="border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden text-sm">
+                        <table class="w-full text-left border-collapse">
+                            <thead
+                                class="bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 text-xs uppercase text-slate-500 font-semibold tracking-wider">
+                                <tr>
+                                    <th class="p-4 w-32">Role</th>
+                                    <th class="p-4 w-48">Specs</th>
+                                    <th class="p-4">Usage</th>
+                                </tr>
+                            </thead>
+                            <tbody
+                                class="divide-y divide-slate-100 dark:divide-slate-800 bg-white dark:bg-slate-900/50">
+                                <!-- Display -->
+                                <tr class="bg-slate-50/50 dark:bg-slate-800/20">
+                                    <td class="px-4 py-3 align-top font-bold text-slate-900 dark:text-white">Display
+                                    </td>
+                                    <td class="px-4 py-3 align-top font-mono text-xs text-slate-500">
+                                        text-6xl (3.75rem)<br>Black (900)<br>tracking-tighter<br>leading-none
+                                    </td>
+                                    <td class="px-4 py-3 align-top text-xs text-slate-500">
+                                        메인 화면의 회차 정보 등 가장 강조되는 숫자에 사용
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" class="px-4 pb-6 pt-2">
+                                        <div
+                                            class="p-6 border border-dashed border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-950 flex items-center justify-center">
+                                            <div
+                                                class="text-6xl font-black tracking-tighter text-slate-900 dark:text-white">
+                                                1034<span
+                                                    class="text-3xl text-slate-300 dark:text-slate-700 align-baseline ml-1">회</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!-- Title 1 -->
+                                <tr
+                                    class="bg-slate-50/50 dark:bg-slate-800/20 border-t border-slate-100 dark:border-slate-800">
+                                    <td class="px-4 py-3 align-top font-bold text-slate-900 dark:text-white">Title 1
+                                    </td>
+                                    <td class="px-4 py-3 align-top font-mono text-xs text-slate-500">
+                                        text-3xl (1.875rem)<br>Black (900)<br>tracking-tight<br>leading-9 (2.25rem)
+                                    </td>
+                                    <td class="px-4 py-3 align-top text-xs text-slate-500">
+                                        주요 섹션의 대제목, 페이지 타이틀
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" class="px-4 pb-6 pt-2">
+                                        <div
+                                            class="p-6 border border-dashed border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-950 flex items-center justify-center">
+                                            <div
+                                                class="text-3xl font-black tracking-tight text-slate-900 dark:text-white">
+                                                오늘의 로또</div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!-- Title 2 -->
+                                <tr
+                                    class="bg-slate-50/50 dark:bg-slate-800/20 border-t border-slate-100 dark:border-slate-800">
+                                    <td class="px-4 py-3 align-top font-bold text-slate-900 dark:text-white">Title 2
+                                    </td>
+                                    <td class="px-4 py-3 align-top font-mono text-xs text-slate-500">
+                                        text-xl (1.25rem)<br>Bold (700)<br>leading-7 (1.75rem)
+                                    </td>
+                                    <td class="px-4 py-3 align-top text-xs text-slate-500">
+                                        카드 내부의 제목, 소제목
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" class="px-4 pb-6 pt-2">
+                                        <div
+                                            class="p-6 border border-dashed border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-950 flex items-center justify-center">
+                                            <div class="text-xl font-bold text-slate-900 dark:text-white">당첨 결과</div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!-- Body -->
+                                <tr
+                                    class="bg-slate-50/50 dark:bg-slate-800/20 border-t border-slate-100 dark:border-slate-800">
+                                    <td class="px-4 py-3 align-top font-bold text-slate-900 dark:text-white">Body</td>
+                                    <td class="px-4 py-3 align-top font-mono text-xs text-slate-500">
+                                        text-base (1rem)<br>Regular (400)<br>leading-6 (1.5rem)
+                                    </td>
+                                    <td class="px-4 py-3 align-top text-xs text-slate-500">
+                                        일반적인 본문 텍스트, 설명 문구
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" class="px-4 pb-6 pt-2">
+                                        <div
+                                            class="p-6 border border-dashed border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-950 flex items-center justify-center">
+                                            <div class="text-base text-slate-900 dark:text-white">이번 회차 합계와 동일한 번호를
+                                                추천합니다.</div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!-- Caption -->
+                                <tr
+                                    class="bg-slate-50/50 dark:bg-slate-800/20 border-t border-slate-100 dark:border-slate-800">
+                                    <td class="px-4 py-3 align-top font-bold text-slate-900 dark:text-white">Caption
+                                    </td>
+                                    <td class="px-4 py-3 align-top font-mono text-xs text-slate-500">
+                                        text-sm (0.875rem)<br>Medium (500)<br>leading-5 (1.25rem)
+                                    </td>
+                                    <td class="px-4 py-3 align-top text-xs text-slate-500">
+                                        날짜, 태그, 부가 정보 등 보조 텍스트
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" class="px-4 pb-6 pt-2">
+                                        <div
+                                            class="p-6 border border-dashed border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-950 flex items-center justify-center">
+                                            <div class="text-sm font-medium text-slate-500 dark:text-slate-400">추첨일 ·
+                                                2024.03.16</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- 3. Spacing -->
+            <section id="spacing" class="content-section hidden">
+                <header class="mb-8 pb-4 border-b border-slate-200 dark:border-slate-800">
+                    <span class="text-xs font-bold tracking-wider text-indigo-500 uppercase mb-1 block">01.
+                        Foundation</span>
+                    <h2 class="text-3xl font-bold text-slate-900 dark:text-white">Spacing</h2>
+                    <p class="mt-2 text-slate-500 dark:text-slate-400">4px(0.25rem) 단위의 그리드 시스템을 사용합니다.</p>
+                </header>
+
+                <div class="space-y-4">
+                    <div
+                        class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+                        <div
+                            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 lg:divide-x divide-slate-100 dark:divide-slate-800">
+                            <div class="p-6 space-y-2">
+                                <div class="flex justify-between text-sm mb-2"><span
+                                        class="font-mono text-slate-500">px-1 (4px)</span></div>
+                                <div class="flex items-center gap-2">
+                                    <div class="w-1 h-8 bg-indigo-500 rounded"></div>
+                                    <div
+                                        class="h-8 bg-indigo-100 dark:bg-indigo-900/30 w-full rounded flex items-center px-1">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-6 space-y-2">
+                                <div class="flex justify-between text-sm mb-2"><span
+                                        class="font-mono text-slate-500">px-2 (8px)</span></div>
+                                <div class="flex items-center gap-2">
+                                    <div class="w-2 h-8 bg-indigo-500 rounded"></div>
+                                    <div
+                                        class="h-8 bg-indigo-100 dark:bg-indigo-900/30 w-full rounded flex items-center px-2">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-6 space-y-2">
+                                <div class="flex justify-between text-sm mb-2"><span
+                                        class="font-mono text-slate-500">px-4 (16px)</span></div>
+                                <div class="flex items-center gap-2">
+                                    <div class="w-4 h-8 bg-indigo-500 rounded"></div>
+                                    <div
+                                        class="h-8 bg-indigo-100 dark:bg-indigo-900/30 w-full rounded flex items-center px-4">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-6 space-y-2">
+                                <div class="flex justify-between text-sm mb-2"><span
+                                        class="font-mono text-slate-500">px-8 (32px)</span></div>
+                                <div class="flex items-center gap-2">
+                                    <div class="w-8 h-8 bg-indigo-500 rounded"></div>
+                                    <div
+                                        class="h-8 bg-indigo-100 dark:bg-indigo-900/30 w-full rounded flex items-center px-8">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. Border Radius -->
+            <section id="radius" class="content-section hidden">
+                <header class="mb-8 pb-4 border-b border-slate-200 dark:border-slate-800">
+                    <span class="text-xs font-bold tracking-wider text-indigo-500 uppercase mb-1 block">01.
+                        Foundation</span>
+                    <h2 class="text-3xl font-bold text-slate-900 dark:text-white">Border Radius</h2>
+                    <p class="mt-2 text-slate-500 dark:text-slate-400">부드러운 인터페이스를 위한 곡률 시스템입니다.</p>
+                </header>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div class="space-y-2">
+                        <div
+                            class="aspect-square bg-indigo-500 rounded-sm shadow-sm flex items-center justify-center text-white font-mono text-xs">
+                            rounded-sm</div>
+                        <p class="text-center text-xs text-slate-500">2px (Small)</p>
+                    </div>
+                    <div class="space-y-2">
+                        <div
+                            class="aspect-square bg-indigo-500 rounded shadow-sm flex items-center justify-center text-white font-mono text-xs">
+                            rounded</div>
+                        <p class="text-center text-xs text-slate-500">4px (Default)</p>
+                    </div>
+                    <div class="space-y-2">
+                        <div
+                            class="aspect-square bg-indigo-500 rounded-lg shadow-sm flex items-center justify-center text-white font-mono text-xs">
+                            rounded-lg</div>
+                        <p class="text-center text-xs text-slate-500">8px (Large)</p>
+                    </div>
+                    <div class="space-y-2">
+                        <div
+                            class="aspect-square bg-indigo-500 rounded-xl shadow-sm flex items-center justify-center text-white font-mono text-xs">
+                            rounded-xl</div>
+                        <p class="text-center text-xs text-slate-500">12px (X-Large)</p>
+                    </div>
+                    <div class="space-y-2">
+                        <div
+                            class="aspect-square bg-indigo-500 rounded-2xl shadow-sm flex items-center justify-center text-white font-mono text-xs">
+                            rounded-2xl</div>
+                        <p class="text-center text-xs text-slate-500">16px (2X-Large)</p>
+                    </div>
+                    <div class="space-y-2">
+                        <div
+                            class="aspect-square bg-indigo-500 rounded-3xl shadow-sm flex items-center justify-center text-white font-mono text-xs">
+                            rounded-3xl</div>
+                        <p class="text-center text-xs text-slate-500">24px (3X-Large)</p>
+                    </div>
+                    <div class="space-y-2">
+                        <div
+                            class="aspect-square bg-indigo-500 rounded-full shadow-sm flex items-center justify-center text-white font-mono text-xs">
+                            rounded-full</div>
+                        <p class="text-center text-xs text-slate-500">9999px (Full)</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. Shadows -->
+            <section id="shadows" class="content-section hidden">
+                <header class="mb-8 pb-4 border-b border-slate-200 dark:border-slate-800">
+                    <span class="text-xs font-bold tracking-wider text-indigo-500 uppercase mb-1 block">01.
+                        Foundation</span>
+                    <h2 class="text-3xl font-bold text-slate-900 dark:text-white">Shadows</h2>
+                    <p class="mt-2 text-slate-500 dark:text-slate-400">깊이감(Depth)과 계층(Hierarchy)을 표현합니다.</p>
+                </header>
+
+                <div
+                    class="grid grid-cols-1 sm:grid-cols-3 gap-8 bg-slate-50 dark:bg-slate-900/50 p-8 rounded-xl border border-slate-200 dark:border-slate-800">
+                    <div
+                        class="bg-white dark:bg-slate-800 h-32 rounded-lg shadow-sm flex items-center justify-center border border-slate-100 dark:border-white/5">
+                        <span class="text-slate-500 dark:text-slate-400 font-mono text-sm">shadow-sm</span>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-slate-800 h-32 rounded-lg shadow flex items-center justify-center border border-slate-100 dark:border-white/5">
+                        <span class="text-slate-500 dark:text-slate-400 font-mono text-sm">shadow</span>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-slate-800 h-32 rounded-lg shadow-md flex items-center justify-center border border-slate-100 dark:border-white/5">
+                        <span class="text-slate-500 dark:text-slate-400 font-mono text-sm">shadow-md</span>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-slate-800 h-32 rounded-lg shadow-lg flex items-center justify-center border border-slate-100 dark:border-white/5">
+                        <span class="text-slate-500 dark:text-slate-400 font-mono text-sm">shadow-lg</span>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-slate-800 h-32 rounded-lg shadow-xl flex items-center justify-center border border-slate-100 dark:border-white/5">
+                        <span class="text-slate-500 dark:text-slate-400 font-mono text-sm">shadow-xl</span>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-slate-800 h-32 rounded-lg shadow-2xl flex items-center justify-center border border-slate-100 dark:border-white/5">
+                        <span class="text-slate-500 dark:text-slate-400 font-mono text-sm">shadow-2xl</span>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- 6. Icons -->
+            <section id="icons" class="content-section hidden">
+                <header class="mb-8 pb-4 border-b border-slate-200 dark:border-slate-800">
+                    <span class="text-xs font-bold tracking-wider text-indigo-500 uppercase mb-1 block">01.
+                        Foundation</span>
+                    <h2 class="text-3xl font-bold text-slate-900 dark:text-white">Icons</h2>
+                    <p class="mt-2 text-slate-500 dark:text-slate-400"><strong>Lucide Icons</strong>를 사용하며, 24px를 기본 크기로
+                        합니다.</p>
+                </header>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Base Style -->
+                    <div class="space-y-4">
+                        <h4 class="text-sm font-bold text-slate-900 dark:text-white">Base Style</h4>
+                        <div
+                            class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800">
+                            <div class="flex items-center gap-8 mb-6">
+                                <div class="flex flex-col items-center gap-2">
+                                    <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-lg">
+                                        <svg class="w-6 h-6 text-slate-900 dark:text-white" fill="none"
+                                            stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                                            <polyline points="9 22 9 12 15 12 15 22" />
+                                        </svg>
+                                    </div>
+                                    <span class="text-xs font-mono text-slate-400">Default (2px)</span>
+                                </div>
+                                <div class="flex flex-col items-center gap-2">
+                                    <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-lg">
+                                        <svg class="w-6 h-6 text-slate-900 dark:text-white" fill="none"
+                                            stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                                            <polyline points="9 22 9 12 15 12 15 22" />
+                                        </svg>
+                                    </div>
+                                    <span class="text-xs font-mono text-slate-400">Light (1.5px)</span>
+                                </div>
+                            </div>
+                            <p class="text-sm text-slate-500 leading-relaxed">
+                                기본 Stroke Width는 <strong>2px</strong>를 사용합니다.<br>
+                                복잡한 UI나 작은 크기에서는 <strong>1.5px</strong>를 고려할 수 있습니다.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Usage Examples -->
+                    <div class="space-y-4">
+                        <h4 class="text-sm font-bold text-slate-900 dark:text-white">Usage Examples</h4>
+                        <div
+                            class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 space-y-4">
+                            <!-- Button Icon -->
+                            <div
+                                class="flex items-center justify-between p-3 border border-slate-100 dark:border-slate-800 rounded-lg">
+                                <span class="text-sm text-slate-500">In Button</span>
+                                <button
+                                    class="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-semibold hover:bg-indigo-700 transition-colors">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"
+                                        viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M5 12h14" />
+                                        <path d="m12 5 7 7-7 7" />
+                                    </svg>
+                                    Create New
+                                </button>
+                            </div>
+
+                            <!-- Navigation Icon -->
+                            <div
+                                class="flex items-center justify-between p-3 border border-slate-100 dark:border-slate-800 rounded-lg">
+                                <span class="text-sm text-slate-500">Navigation (Active)</span>
+                                <div class="flex items-center gap-2 text-indigo-600 font-bold">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5"
+                                        viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                                        <polyline points="9 22 9 12 15 12 15 22" />
+                                    </svg>
+                                    <span class="text-sm">Home</span>
+                                </div>
+                            </div>
+
+                            <!-- List Icon -->
+                            <div
+                                class="flex items-center justify-between p-3 border border-slate-100 dark:border-slate-800 rounded-lg">
+                                <span class="text-sm text-slate-500">List Item</span>
+                                <div
+                                    class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"
+                                        viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                                        <circle cx="12" cy="7" r="4" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. Lotto Balls (Original) -->
+            <section id="lotto-balls" class="content-section hidden">
+                <header class="mb-8 pb-4 border-b border-slate-200 dark:border-slate-800">
+                    <span class="text-xs font-bold tracking-wider text-indigo-500 uppercase mb-1 block">02.
+                        Components</span>
+                    <h2 class="text-3xl font-bold text-slate-900 dark:text-white">Lotto Balls</h2>
+                    <p class="mt-2 text-slate-500 dark:text-slate-400">번호 구간별 색상이 적용된 로또 볼 컴포넌트입니다.</p>
+                </header>
+
+                <div
+                    class="bg-white dark:bg-slate-900 p-8 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-8">
+                    <div>
+                        <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-4">Color Variants</h4>
+                        <div class="flex flex-wrap gap-4">
+                            <div
+                                class="w-12 h-12 rounded-full bg-[#fbc400] flex items-center justify-center shadow-md ring-4 ring-[#fbc400]/20">
+                                <span class="text-white font-bold text-xl drop-shadow-md">7</span>
+                            </div>
+                            <div
+                                class="w-12 h-12 rounded-full bg-[#69c8f2] flex items-center justify-center shadow-md ring-4 ring-[#69c8f2]/20">
+                                <span class="text-white font-bold text-xl drop-shadow-md">11</span>
+                            </div>
+                            <div
+                                class="w-12 h-12 rounded-full bg-[#ff7272] flex items-center justify-center shadow-md ring-4 ring-[#ff7272]/20">
+                                <span class="text-white font-bold text-xl drop-shadow-md">25</span>
+                            </div>
+                            <div
+                                class="w-12 h-12 rounded-full bg-[#aaa] flex items-center justify-center shadow-md ring-4 ring-[#aaa]/20">
+                                <span class="text-white font-bold text-xl drop-shadow-md">33</span>
+                            </div>
+                            <div
+                                class="w-12 h-12 rounded-full bg-[#b0d840] flex items-center justify-center shadow-md ring-4 ring-[#b0d840]/20">
+                                <span class="text-white font-bold text-xl drop-shadow-md">42</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-4">Sizes</h4>
+                        <div class="flex items-end gap-6">
+                            <div class="flex flex-col items-center gap-2">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-[#fbc400] flex items-center justify-center shadow-sm">
+                                    <span class="text-white font-bold text-sm drop-shadow-md">3</span>
+                                </div>
+                                <span class="text-xs font-mono text-slate-400">sm (32px)</span>
+                            </div>
+                            <div class="flex flex-col items-center gap-2">
+                                <div
+                                    class="w-10 h-10 rounded-full bg-[#69c8f2] flex items-center justify-center shadow-md">
+                                    <span class="text-white font-bold text-base drop-shadow-md">12</span>
+                                </div>
+                                <span class="text-xs font-mono text-slate-400">md (40px)</span>
+                            </div>
+                            <div class="flex flex-col items-center gap-2">
+                                <div
+                                    class="w-12 h-12 rounded-full bg-[#ff7272] flex items-center justify-center shadow-lg">
+                                    <span class="text-white font-bold text-xl drop-shadow-md">28</span>
+                                </div>
+                                <span class="text-xs font-mono text-slate-400">lg (48px)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. Cards -->
+            <section id="cards" class="content-section hidden">
+                <header class="mb-8 pb-4 border-b border-slate-200 dark:border-slate-800">
+                    <span class="text-xs font-bold tracking-wider text-indigo-500 uppercase mb-1 block">02.
+                        Components</span>
+                    <h2 class="text-3xl font-bold text-slate-900 dark:text-white">Cards</h2>
+                    <p class="mt-2 text-slate-500 dark:text-slate-400">정보 표시에 사용되는 다양한 카드 스타일입니다.</p>
+                </header>
+
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <!-- Hero Card -->
+                    <div class="space-y-4">
+                        <h4 class="text-sm font-bold text-slate-900 dark:text-white">Hero Card</h4>
+                        <div
+                            class="w-full rounded-[40px] bg-indigo-900 p-6 shadow-2xl shadow-indigo-900/30 relative overflow-hidden transition-transform hover:scale-[1.02] duration-300">
+                            <div class="flex justify-between items-center mb-6 relative z-10">
+                                <div class="flex items-baseline gap-1">
+                                    <span class="text-5xl font-black text-white tracking-tighter">1034</span>
+                                    <span class="text-xl font-bold text-white/70">회</span>
+                                </div>
+                                <div
+                                    class="bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/10">
+                                    <span class="text-white/80 font-bold text-[10px]">추첨일 · 2024.03.16</span>
+                                </div>
+                            </div>
+                            <div class="flex justify-between mb-6 relative z-10">
+                                <div
+                                    class="w-10 h-10 rounded-full bg-[#fbc400] flex items-center justify-center shadow-lg">
+                                    <span class="text-white font-bold drop-shadow-md">7</span>
+                                </div>
+                                <div
+                                    class="w-10 h-10 rounded-full bg-[#69c8f2] flex items-center justify-center shadow-lg">
+                                    <span class="text-white font-bold drop-shadow-md">11</span>
+                                </div>
+                                <div
+                                    class="w-10 h-10 rounded-full bg-[#69c8f2] flex items-center justify-center shadow-lg">
+                                    <span class="text-white font-bold drop-shadow-md">16</span>
+                                </div>
+                                <div
+                                    class="w-10 h-10 rounded-full bg-[#ff7272] flex items-center justify-center shadow-lg">
+                                    <span class="text-white font-bold drop-shadow-md">22</span>
+                                </div>
+                                <div
+                                    class="w-10 h-10 rounded-full bg-[#ff7272] flex items-center justify-center shadow-lg">
+                                    <span class="text-white font-bold drop-shadow-md">27</span>
+                                </div>
+                                <div
+                                    class="w-10 h-10 rounded-full bg-[#aaa] flex items-center justify-center shadow-lg">
+                                    <span class="text-white font-bold drop-shadow-md">35</span>
+                                </div>
+                            </div>
+                            <div
+                                class="flex items-center justify-end gap-2 text-white/30 text-xl font-light mb-4 relative z-10">
+                                +
+                                <div
+                                    class="w-10 h-10 rounded-full bg-[#ff7272] flex items-center justify-center shadow-lg">
+                                    <span class="text-white font-bold drop-shadow-md">24</span>
+                                </div>
+                            </div>
+
+                            <!-- Graph mockup -->
+                            <div class="mt-4 border-t border-white/10 pt-4 relative z-10">
+                                <div class="flex items-end justify-between h-16 opacity-50 space-x-1">
+                                    <div class="w-full bg-indigo-300 rounded-t-sm h-[30%]"></div>
+                                    <div class="w-full bg-indigo-300 rounded-t-sm h-[50%]"></div>
+                                    <div class="w-full bg-indigo-300 rounded-t-sm h-[40%]"></div>
+                                    <div class="w-full bg-indigo-300 rounded-t-sm h-[70%]"></div>
+                                    <div class="w-full bg-indigo-300 rounded-t-sm h-[60%]"></div>
+                                    <div
+                                        class="w-full bg-lime-300 rounded-t-sm h-[90%] shadow-[0_0_10px_rgba(190,242,100,0.5)]">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Decorative Gradient Overlay -->
+                            <div
+                                class="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- List Card -->
+                    <div class="space-y-4">
+                        <h4 class="text-sm font-bold text-slate-900 dark:text-white">List Card</h4>
+                        <div
+                            class="w-full rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 shadow-sm hover:shadow-md transition-shadow duration-200 cursor-pointer">
+                            <div
+                                class="flex justify-between items-center border-b border-slate-100 dark:border-slate-800 pb-3 mb-3">
+                                <span class="text-xl font-bold text-slate-900 dark:text-slate-100">1033회</span>
+                                <span class="text-sm text-slate-400">2024.03.09</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div class="flex gap-1.5 flex-wrap">
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-[#fbc400] flex items-center justify-center shadow-sm">
+                                        <span class="text-white font-bold text-xs drop-shadow-md">3</span>
+                                    </div>
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-[#69c8f2] flex items-center justify-center shadow-sm">
+                                        <span class="text-white font-bold text-xs drop-shadow-md">11</span>
+                                    </div>
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-[#69c8f2] flex items-center justify-center shadow-sm">
+                                        <span class="text-white font-bold text-xs drop-shadow-md">15</span>
+                                    </div>
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-[#ff7272] flex items-center justify-center shadow-sm">
+                                        <span class="text-white font-bold text-xs drop-shadow-md">29</span>
+                                    </div>
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-[#aaa] flex items-center justify-center shadow-sm">
+                                        <span class="text-white font-bold text-xs drop-shadow-md">35</span>
+                                    </div>
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-[#b0d840] flex items-center justify-center shadow-sm">
+                                        <span class="text-white font-bold text-xs drop-shadow-md">44</span>
+                                    </div>
+                                </div>
+                                <div
+                                    class="flex items-center gap-1 pl-2 border-l border-slate-100 dark:border-slate-800 ml-2">
+                                    <span class="text-slate-300 dark:text-slate-600 text-lg font-light mr-1">+</span>
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-[#fbc400] flex items-center justify-center shadow-sm">
+                                        <span class="text-white font-bold text-xs drop-shadow-md">10</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <script>
+        // --- Theme Logic ---
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+        document.getElementById('theme-toggle').addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+        });
+
+        // --- Navigation Logic ---
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('.content-section');
+
+        function setActiveTab(targetId) {
+            // Update nav state
+            navLinks.forEach(link => {
+                if (link.dataset.target === targetId) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+
+            // Update content visibility
+            sections.forEach(section => {
+                if (section.id === targetId) {
+                    section.classList.remove('hidden');
+                    // Scroll to top of main area
+                    document.querySelector('main').scrollTop = 0;
+                } else {
+                    section.classList.add('hidden');
+                }
+            });
+        }
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                const target = e.target.dataset.target;
+                setActiveTab(target);
+            });
+        });
+
+        // Default to first tab
+        setActiveTab('colors');
+    </script>
+</body>
+
+</html>
