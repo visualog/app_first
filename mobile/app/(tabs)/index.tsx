@@ -1,5 +1,6 @@
 import { useRef, useEffect } from "react";
 import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
+import { useColorScheme } from "nativewind";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import { LottoBall } from "../../components/shared/LottoBall";
@@ -35,7 +36,7 @@ const PrizeBarGraph = ({ history }: { history: LottoDrawData[] }) => {
                             {/* Bar Tooltip/Value (Optional, but let's keep it simple first) */}
                             <View
                                 style={{ height: `${Math.max(height, 5)}%` }}
-                                className={`w-[14px] rounded-t-[2px] ${isLatest ? 'bg-lime-300' : 'bg-indigo-300/40'}`}
+                                className={`w-[14px] rounded-t-[2px] ${isLatest ? 'bg-lime-300' : 'bg-indigo-300/40 dark:bg-indigo-700/40'}`}
                             />
                             <Text className={`text-[9px] mt-1.5 ${isLatest ? 'text-lime-300 font-bold' : 'text-white/30'}`}>
                                 {draw.회차}회
@@ -94,10 +95,10 @@ const StandardCard = ({ data, onPress }: { data: LottoDrawData; onPress?: () => 
 
     return (
         <Pressable onPress={onPress}>
-            <Card borderRadius={16} className="bg-white p-4 border border-slate-200 mb-3">
-                <View className="flex-row justify-between items-center border-b border-slate-100 pb-3 mb-3">
-                    <Text className="text-xl font-bold text-slate-900">{data.회차}회</Text>
-                    <Text className="text-sm text-slate-400">{data.추첨일}</Text>
+            <Card borderRadius={16} className="bg-white dark:bg-slate-900 p-4 border border-slate-200 dark:border-slate-800 mb-3">
+                <View className="flex-row justify-between items-center border-b border-slate-100 dark:border-slate-800 pb-3 mb-3">
+                    <Text className="text-xl font-bold text-slate-900 dark:text-white">{data.회차}회</Text>
+                    <Text className="text-sm text-slate-400 dark:text-slate-500">{data.추첨일}</Text>
                 </View>
 
                 <View className="flex-row items-center justify-between">
@@ -117,6 +118,8 @@ export default function Index() {
     const router = useRouter();
     const navigation = useNavigation();
     const scrollViewRef = useRef<ScrollView>(null);
+    const { colorScheme } = useColorScheme();
+    const isDark = colorScheme === 'dark';
 
     const latestDraw = LOTTO_HISTORY[0];
     const pastDraws = LOTTO_HISTORY.slice(1);
@@ -142,7 +145,7 @@ export default function Index() {
     }, [navigation]);
 
     return (
-        <View style={styles.container}>
+        <View className="flex-1 bg-slate-50 dark:bg-slate-950">
             {/* ScrollView with ref for manual scroll-to-top */}
             <ScrollView
                 ref={scrollViewRef}
@@ -155,8 +158,8 @@ export default function Index() {
             >
                 {/* Page Title */}
                 <View className="mb-4">
-                    <Text className="text-3xl font-black text-slate-900 tracking-tight">오늘의 로또</Text>
-                    <Text className="text-slate-500 text-sm font-medium">{today}</Text>
+                    <Text className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">오늘의 로또</Text>
+                    <Text className="text-slate-500 dark:text-slate-400 text-sm font-medium">{today}</Text>
                 </View>
 
                 {/* Hero Card (Latest Draw) */}
@@ -182,37 +185,34 @@ export default function Index() {
             </ScrollView>
 
             {/* Top Fade Gradient Overlay */}
+            {/* Top Fade Gradient Overlay */}
             <LinearGradient
-                colors={[
+                colors={isDark ? [
+                    'rgba(2, 6, 23, 1)',
+                    'rgba(2, 6, 23, 0.95)',
+                    'rgba(2, 6, 23, 0)',
+                ] : [
                     'rgba(248, 250, 252, 1)',
                     'rgba(248, 250, 252, 0.95)',
-                    'rgba(248, 250, 252, 0.85)',
-                    'rgba(248, 250, 252, 0.70)',
-                    'rgba(248, 250, 252, 0.50)',
-                    'rgba(248, 250, 252, 0.30)',
-                    'rgba(248, 250, 252, 0.15)',
-                    'rgba(248, 250, 252, 0.05)',
                     'rgba(248, 250, 252, 0)',
                 ]}
-                locations={[0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.75, 1]}
+                locations={[0, 0.2, 1]}
                 style={[styles.gradient, { top: 0, height: 100 }]}
                 pointerEvents="none"
             />
 
             {/* Bottom Fade Gradient Overlay */}
             <LinearGradient
-                colors={[
+                colors={isDark ? [
+                    'rgba(2, 6, 23, 0)',
+                    'rgba(2, 6, 23, 0.95)',
+                    'rgba(2, 6, 23, 1)',
+                ] : [
                     'rgba(248, 250, 252, 0)',
-                    'rgba(248, 250, 252, 0.05)',
-                    'rgba(248, 250, 252, 0.15)',
-                    'rgba(248, 250, 252, 0.30)',
-                    'rgba(248, 250, 252, 0.50)',
-                    'rgba(248, 250, 252, 0.70)',
-                    'rgba(248, 250, 252, 0.85)',
                     'rgba(248, 250, 252, 0.95)',
                     'rgba(248, 250, 252, 1)',
                 ]}
-                locations={[0, 0.25, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]}
+                locations={[0, 0.8, 1]}
                 style={[styles.gradient, { bottom: 0, height: 120 }]}
                 pointerEvents="none"
             />

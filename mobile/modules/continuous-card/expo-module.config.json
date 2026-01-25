@@ -2,9 +2,6 @@
     "ios": {
         "modules": [
             "ContinuousCardModule"
-        ],
-        "viewManagers": [
-            "ContinuousCardModule"
         ]
     }
 }

@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, ScrollView, Pressable, StatusBar } from "react-native";
 import { useLocalSearchParams, useRouter, Stack } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useColorScheme } from "nativewind";
 import { Ionicons } from "@expo/vector-icons";
 import { getDrawByRound as getDraw } from "../../lib/lottoData";
 import { BlurView } from "expo-blur";
@@ -14,6 +15,8 @@ export default function LottoDetailScreen() {
     const { round } = useLocalSearchParams<{ round: string }>();
     const router = useRouter();
     const insets = useSafeAreaInsets();
+    const { colorScheme } = useColorScheme();
+    const isDark = colorScheme === 'dark';
 
     const roundNumber = parseInt(round || '0', 10);
     const data = getDraw(roundNumber);
@@ -32,8 +35,8 @@ export default function LottoDetailScreen() {
     }
 
     return (
-        <View style={styles.container}>
-            <StatusBar barStyle="dark-content" />
+        <View style={styles.container} className="bg-slate-50 dark:bg-slate-950">
+            <StatusBar barStyle={isDark ? "light-content" : "dark-content"} />
             <Stack.Screen
                 options={{
                     headerShown: true,
@@ -51,7 +54,7 @@ export default function LottoDetailScreen() {
                                         { opacity: pressed ? 0.7 : 1 }
                                     ]}
                                 >
-                                    <Ionicons name="arrow-back" size={24} color="#1e293b" />
+                                    <Ionicons name="arrow-back" size={24} color={isDark ? "white" : "#1e293b"} />
                                 </Pressable>
                             </View>
                         </View>
@@ -68,13 +71,13 @@ export default function LottoDetailScreen() {
             >
                 {/* 2. Title Section */}
                 <View className="items-center mt-2 mb-10 px-6">
-                    <View className="bg-indigo-50 px-4 py-1.5 rounded-full mb-4">
-                        <Text className="text-indigo-600 font-bold text-sm tracking-wide">{data.추첨일}</Text>
+                    <View className="bg-indigo-50 dark:bg-indigo-900/30 px-4 py-1.5 rounded-full mb-4">
+                        <Text className="text-indigo-600 dark:text-indigo-400 font-bold text-sm tracking-wide">{data.추첨일}</Text>
                     </View>
-                    <Text className="text-6xl font-black text-slate-900 tracking-tighter mb-2">
-                        {data.회차}<Text className="text-4xl font-bold text-slate-300">회</Text>
+                    <Text className="text-6xl font-black text-slate-900 dark:text-white tracking-tighter mb-2">
+                        {data.회차}<Text className="text-4xl font-bold text-slate-300 dark:text-slate-600">회</Text>
                     </Text>
-                    <Text className="text-slate-400 font-medium">당첨 결과</Text>
+                    <Text className="text-slate-400 dark:text-slate-500 font-medium">당첨 결과</Text>
                 </View>
 
                 {/* 3. Winning Numbers (One Row) */}
@@ -95,7 +98,7 @@ export default function LottoDetailScreen() {
                 <View className="px-6">
                     {/* 4. Bonus Number Section */}
                     <View className="items-center mb-12 mt-4">
-                        <Card borderRadius={16} className="bg-slate-50 p-6 w-full items-center">
+                        <Card borderRadius={16} className="bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-6 w-full items-center">
                             <Text className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-4">
                                 BONUS NUMBER
                             </Text>

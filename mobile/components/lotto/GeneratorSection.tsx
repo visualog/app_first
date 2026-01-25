@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, Pressable, Alert, Vibration } from 'react-native';
 import { Ionicons } from "@expo/vector-icons";
+import * as Haptics from 'expo-haptics';
+import Animated, { FadeInUp } from 'react-native-reanimated';
 import { LottoBall } from "../shared/LottoBall";
 import { checkNumberCombinationExists } from "../../lib/lottoData";
 import { useBookmarkStore } from "../../lib/bookmarkStore";
@@ -43,7 +45,7 @@ export function GeneratorSection({ targetSum, currentRound }: GeneratorSectionPr
 
     const handleGenerate = () => {
         setIsGenerating(true);
-        Vibration.vibrate(50); // Haptic feedback
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
 
         // Delay to show loading state / animation feeling
         setTimeout(() => {
@@ -59,6 +61,7 @@ export function GeneratorSection({ targetSum, currentRound }: GeneratorSectionPr
 
             setGeneratedSets(newSets);
             setIsGenerating(false);
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         }, 500);
     };
 
@@ -69,7 +72,7 @@ export function GeneratorSection({ targetSum, currentRound }: GeneratorSectionPr
             if (item) removeBookmark(item.id);
         } else {
             addBookmark(numbers, currentRound);
-            Vibration.vibrate(20);
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         }
     };
 
@@ -77,10 +80,10 @@ export function GeneratorSection({ targetSum, currentRound }: GeneratorSectionPr
         <View className="w-full mb-10">
             {/* Title & Desc */}
             <View className="mb-6">
-                <Text className="text-slate-900 text-lg font-bold">합계 기반 번호 생성</Text>
-                <Text className="text-slate-500 text-xs mt-1">
+                <Text className="text-slate-900 dark:text-white text-lg font-bold">합계 기반 번호 생성</Text>
+                <Text className="text-slate-500 dark:text-slate-400 text-xs mt-1">
                     이번 회차 합계({targetSum})와 동일하지만,{"\n"}
-                    <Text className="text-indigo-600 font-bold">역대 1등 당첨 내역에는 없는</Text> 번호를 추천합니다.
+                    <Text className="text-indigo-600 dark:text-indigo-400 font-bold">역대 1등 당첨 내역에는 없는</Text> 번호를 추천합니다.
                 </Text>
             </View>
 
@@ -103,7 +106,11 @@ export function GeneratorSection({ targetSum, currentRound }: GeneratorSectionPr
                 {generatedSets.map((set, idx) => {
                     const bookmarked = isBookmarked(set);
                     return (
-                        <View key={idx} className="bg-white p-4 rounded-2xl border border-slate-100 flex-row items-center justify-between shadow-sm">
+                        <Animated.View
+                            key={idx}
+                            entering={FadeInUp.delay(idx * 100).springify()}
+                            className="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-100 dark:border-slate-800 flex-row items-center justify-between shadow-sm"
+                        >
                             <View className="flex-row gap-1.5 ">
                                 {set.map((n) => (
                                     <LottoBall key={n} number={n} size="sm" />
@@ -120,10 +127,10 @@ export function GeneratorSection({ targetSum, currentRound }: GeneratorSectionPr
                                     color={bookmarked ? "#4f46e5" : "#cbd5e1"}
                                 />
                             </Pressable>
-                        </View>
+                        </Animated.View>
                     );
                 })}
             </View>
-        </View>
+        </View >
     );
 }

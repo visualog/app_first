@@ -37,9 +37,9 @@ export const TopPrizeList = ({ history }: TopPrizeListProps) => {
             <View className="flex-row items-center justify-between px-1 mb-4">
                 <View className="flex-row items-center gap-2">
                     <Ionicons name="trophy" size={20} color="#f59e0b" />
-                    <Text className="text-lg font-bold text-slate-900">역대 1등 최고 당첨금</Text>
+                    <Text className="text-lg font-bold text-slate-900 dark:text-white">역대 1등 최고 당첨금</Text>
                 </View>
-                <Text className="text-xs text-slate-400 font-medium">1인당 수령액 기준</Text>
+                <Text className="text-xs text-slate-400 dark:text-slate-500 font-medium">1인당 수령액 기준</Text>
             </View>
 
             <ScrollView
@@ -56,18 +56,18 @@ export const TopPrizeList = ({ history }: TopPrizeListProps) => {
                             key={data.회차}
                             onPress={() => router.push(`/lotto/${data.회차}`)}
                         >
-                            <Card className="w-[160px] p-4 bg-white border border-slate-100 shadow-sm">
+                            <Card className="w-[160px] p-4 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-sm">
                                 <View className="flex-row justify-between items-start mb-3">
-                                    <View className={`w-6 h-6 rounded-full items-center justify-center ${rank <= 3 ? 'bg-amber-100' : 'bg-slate-100'}`}>
-                                        <Text className={`text-xs font-bold ${rank <= 3 ? 'text-amber-600' : 'text-slate-500'}`}>{rank}</Text>
+                                    <View className={`w-6 h-6 rounded-full items-center justify-center ${rank <= 3 ? 'bg-amber-100 dark:bg-amber-900/40' : 'bg-slate-100 dark:bg-slate-800'}`}>
+                                        <Text className={`text-xs font-bold ${rank <= 3 ? 'text-amber-600 dark:text-amber-400' : 'text-slate-500 dark:text-slate-400'}`}>{rank}</Text>
                                     </View>
-                                    <Text className="text-xs text-slate-400">{data.회차}회</Text>
+                                    <Text className="text-xs text-slate-400 dark:text-slate-500">{data.회차}회</Text>
                                 </View>
 
-                                <Text className="text-lg font-black text-indigo-900 mb-1 leading-tight">
+                                <Text className="text-lg font-black text-indigo-900 dark:text-indigo-100 mb-1 leading-tight">
                                     {formatSimpleCurrency(prize)}
                                 </Text>
-                                <Text className="text-[10px] text-slate-400">
+                                <Text className="text-[10px] text-slate-400 dark:text-slate-500">
                                     {data.추첨일}
                                 </Text>
                             </Card>
